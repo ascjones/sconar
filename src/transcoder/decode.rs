@@ -22,7 +22,7 @@ use crate::scon::{Map, Tuple, Value};
 use anyhow::Result;
 use scale::{Compact, Decode, Input};
 use scale_info::{
-    form::{PortableForm, Form},
+    form::{Form, PortableForm},
     Field, PortableRegistry, Type, TypeDef, TypeDefArray, TypeDefComposite, TypeDefPrimitive,
     TypeDefSequence, TypeDefTuple, TypeDefVariant, Variant,
 };
@@ -116,7 +116,7 @@ impl DecodeValue for TypeDef<PortableForm<String>> {
             TypeDef::Array(array) => array.decode_value(decoder, ty, input),
             TypeDef::Sequence(sequence) => sequence.decode_value(decoder, ty, input),
             TypeDef::Primitive(primitive) => primitive.decode_value(decoder, ty, input),
-            x => unimplemented!("TypeDef {:?} not supported yet", x)
+            x => unimplemented!("TypeDef {:?} not supported yet", x),
         }
     }
 }
@@ -261,7 +261,12 @@ impl DecodeValue for TypeDefSequence<PortableForm<String>> {
 }
 
 impl DecodeValue for TypeDefPrimitive {
-    fn decode_value(&self, _: &Decoder, _: &Type<PortableForm<String>>, input: &mut &[u8]) -> Result<Value> {
+    fn decode_value(
+        &self,
+        _: &Decoder,
+        _: &Type<PortableForm<String>>,
+        input: &mut &[u8],
+    ) -> Result<Value> {
         fn decode_uint<T>(input: &mut &[u8]) -> Result<Value>
         where
             T: Decode + Into<u128>,

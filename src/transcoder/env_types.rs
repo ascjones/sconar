@@ -161,9 +161,7 @@ impl TypeLookupId {
         T: EnvType,
     {
         let type_info = T::Type::type_info();
-        let path = type_info
-            .path()
-            .clone();
+        let path = type_info.path().clone();
 
         type_lookup.get(&path.into()).map(|type_id| Self {
             type_id: *type_id,

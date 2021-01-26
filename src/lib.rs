@@ -17,13 +17,10 @@
 pub mod scon;
 mod transcoder;
 
-pub use self::{
-    transcoder::Transcoder,
-};
+pub use self::transcoder::Transcoder;
 
 #[derive(thiserror::Error, Debug, PartialEq)]
 pub enum Error {
     #[error("Struct fields should either be all named or all unnamed")]
-    InvalidCompositeTypeFields
+    InvalidCompositeTypeFields,
 }
-

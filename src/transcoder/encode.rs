@@ -23,7 +23,7 @@ use anyhow::Result;
 use itertools::Itertools;
 use scale::{Compact, Encode, Output};
 use scale_info::{
-    form::{PortableForm, Form},
+    form::{Form, PortableForm},
     Field, PortableRegistry, TypeDef, TypeDefArray, TypeDefComposite, TypeDefPrimitive,
     TypeDefSequence, TypeDefTuple, TypeDefVariant, Variant,
 };
@@ -132,7 +132,7 @@ impl EncodeValue for TypeDef<PortableForm<String>> {
             TypeDef::Tuple(tuple) => tuple.encode_value_to(encoder, value, output),
             TypeDef::Sequence(sequence) => sequence.encode_value_to(encoder, value, output),
             TypeDef::Primitive(primitive) => primitive.encode_value_to(encoder, value, output),
-            x => unimplemented!("TypeDef {:?} not supported yet", x)
+            x => unimplemented!("TypeDef {:?} not supported yet", x),
         }
     }
 }

@@ -203,12 +203,11 @@ impl From<Vec<u8>> for Bytes {
 
 impl Bytes {
     pub fn from_hex_string(s: &str) -> Result<Self, hex::FromHexError> {
-        let bytes =
-            if s.starts_with("0x") {
-                hex::decode(s.trim_start_matches("0x"))
-            } else {
-                hex::decode(s)
-            }?;
+        let bytes = if s.starts_with("0x") {
+            hex::decode(s.trim_start_matches("0x"))
+        } else {
+            hex::decode(s)
+        }?;
         Ok(Self { bytes })
     }
 

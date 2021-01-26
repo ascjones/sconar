@@ -23,15 +23,12 @@ use self::{
     encode::Encoder,
     env_types::{EnvTypesTranscoder, TypeLookupId},
 };
-use crate::{
-    scon::Value,
-    Error,
-};
+use crate::{scon::Value, Error};
 
 use anyhow::Result;
 use scale::Output;
+use scale_info::form::PortableForm;
 use scale_info::PortableRegistry;
-use scale_info::form::{PortableForm};
 use scale_info::{Field, TypeDefComposite};
 use std::fmt::Debug;
 
