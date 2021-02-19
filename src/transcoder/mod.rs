@@ -35,12 +35,12 @@ use std::fmt::Debug;
 /// Encode strings to SCALE encoded output.
 /// Decode SCALE encoded input into `Value` objects.
 pub struct Transcoder<'a> {
-    registry: &'a PortableRegistry<String>,
+    registry: &'a PortableRegistry,
     env_types: EnvTypesTranscoder,
 }
 
 impl<'a> Transcoder<'a> {
-    pub fn new(registry: &'a PortableRegistry<String>) -> Self {
+    pub fn new(registry: &'a PortableRegistry) -> Self {
         Self {
             registry,
             env_types: EnvTypesTranscoder::new(registry),
@@ -68,14 +68,14 @@ impl<'a> Transcoder<'a> {
 #[derive(Debug)]
 pub enum CompositeTypeFields {
     StructNamedFields(Vec<CompositeTypeNamedField>),
-    TupleStructUnnamedFields(Vec<Field<PortableForm<String>>>),
+    TupleStructUnnamedFields(Vec<Field<PortableForm>>),
     NoFields,
 }
 
 #[derive(Debug)]
 pub struct CompositeTypeNamedField {
     name: String,
-    field: Field<PortableForm<String>>,
+    field: Field<PortableForm>,
 }
 
 impl CompositeTypeNamedField {
@@ -83,13 +83,13 @@ impl CompositeTypeNamedField {
         &self.name
     }
 
-    pub fn field(&self) -> &Field<PortableForm<String>> {
+    pub fn field(&self) -> &Field<PortableForm> {
         &self.field
     }
 }
 
 impl CompositeTypeFields {
-    pub fn from_type_def(type_def: &TypeDefComposite<PortableForm<String>>) -> Result<Self, Error> {
+    pub fn from_type_def(type_def: &TypeDefComposite<PortableForm>) -> Result<Self, Error> {
         if type_def.fields().is_empty() {
             Ok(Self::NoFields)
         } else if type_def.fields().iter().all(|f| f.name().is_some()) {
@@ -97,7 +97,7 @@ impl CompositeTypeFields {
                 .fields()
                 .iter()
                 .map(|f| CompositeTypeNamedField {
-                    name: f.name().expect("All fields have a name; qed").into(),
+                    name: f.name().expect("All fields have a name; qed").to_string(),
                     field: f.clone(),
                 })
                 .collect();

@@ -7,8 +7,8 @@ edition = "2018"
 [dependencies]
 env_logger = "0.8.2"
 anyhow = "1.0.38"
-scale = { package = "parity-scale-codec", version = "1.3.5" }
-scale-info = { git = "https://github.com/paritytech/scale-info", default-features = false, features = ["derive"] }
+scale = { version = "2.0.0", package = "parity-scale-codec" }
+scale-info = { version = "0.6", default-features = false, features = ["derive", "decode"] }
 indexmap = "1.6.1"
 itertools = "0.10.0"
 nom = "6.1.0"

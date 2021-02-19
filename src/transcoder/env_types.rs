@@ -16,7 +16,7 @@
 
 use crate::scon::Value;
 use anyhow::Result;
-use scale::{Encode, Output};
+use scale::Output;
 use scale_info::{form::PortableForm, Field, Path, PortableRegistry, TypeInfo};
 use std::{boxed::Box, collections::HashMap, num::NonZeroU32};
 
@@ -27,7 +27,7 @@ pub struct EnvTypesTranscoder {
 
 impl EnvTypesTranscoder {
     /// Construct an `EnvTypesTranscoder` from the given type registry.
-    pub fn new(registry: &PortableRegistry<String>) -> Self {
+    pub fn new(registry: &PortableRegistry) -> Self {
         let mut transcoders = HashMap::new();
         let types_by_path = registry
             .enumerate()
@@ -133,8 +133,8 @@ impl From<Path> for PathKey {
     }
 }
 
-impl From<Path<PortableForm<String>>> for PathKey {
-    fn from(path: Path<PortableForm<String>>) -> Self {
+impl From<Path<PortableForm>> for PathKey {
+    fn from(path: Path<PortableForm>) -> Self {
         PathKey(path.segments().to_vec())
     }
 }
@@ -175,8 +175,8 @@ impl TypeLookupId {
     }
 }
 
-impl From<&Field<PortableForm<String>>> for TypeLookupId {
-    fn from(field: &Field<PortableForm<String>>) -> Self {
+impl From<&Field<PortableForm>> for TypeLookupId {
+    fn from(field: &Field<PortableForm>) -> Self {
         Self {
             type_id: field.ty().id(),
             maybe_alias: field.type_name().split("::").last().map(ToOwned::to_owned),

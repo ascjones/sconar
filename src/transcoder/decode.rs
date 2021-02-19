@@ -28,12 +28,12 @@ use scale_info::{
 };
 
 pub struct Decoder<'a> {
-    registry: &'a PortableRegistry<String>,
+    registry: &'a PortableRegistry,
     env_types: &'a EnvTypesTranscoder,
 }
 
 impl<'a> Decoder<'a> {
-    pub fn new(registry: &'a PortableRegistry<String>, env_types: &'a EnvTypesTranscoder) -> Self {
+    pub fn new(registry: &'a PortableRegistry, env_types: &'a EnvTypesTranscoder) -> Self {
         Self {
             registry,
             env_types,
@@ -97,16 +97,16 @@ pub trait DecodeValue {
     fn decode_value(
         &self,
         decoder: &Decoder,
-        ty: &Type<PortableForm<String>>,
+        ty: &Type<PortableForm>,
         input: &mut &[u8],
     ) -> Result<Value>;
 }
 
-impl DecodeValue for TypeDef<PortableForm<String>> {
+impl DecodeValue for TypeDef<PortableForm> {
     fn decode_value(
         &self,
         decoder: &Decoder,
-        ty: &Type<PortableForm<String>>,
+        ty: &Type<PortableForm>,
         input: &mut &[u8],
     ) -> Result<Value> {
         match self {
@@ -121,11 +121,11 @@ impl DecodeValue for TypeDef<PortableForm<String>> {
     }
 }
 
-impl DecodeValue for TypeDefComposite<PortableForm<String>> {
+impl DecodeValue for TypeDefComposite<PortableForm> {
     fn decode_value(
         &self,
         decoder: &Decoder,
-        ty: &Type<PortableForm<String>>,
+        ty: &Type<PortableForm>,
         input: &mut &[u8],
     ) -> Result<Value> {
         let struct_type = CompositeTypeFields::from_type_def(&self)?;
@@ -156,11 +156,11 @@ impl DecodeValue for TypeDefComposite<PortableForm<String>> {
     }
 }
 
-impl DecodeValue for TypeDefTuple<PortableForm<String>> {
+impl DecodeValue for TypeDefTuple<PortableForm> {
     fn decode_value(
         &self,
         decoder: &Decoder,
-        _: &Type<PortableForm<String>>,
+        _: &Type<PortableForm>,
         input: &mut &[u8],
     ) -> Result<Value> {
         let mut tuple = Vec::new();
@@ -175,11 +175,11 @@ impl DecodeValue for TypeDefTuple<PortableForm<String>> {
     }
 }
 
-impl DecodeValue for TypeDefVariant<PortableForm<String>> {
+impl DecodeValue for TypeDefVariant<PortableForm> {
     fn decode_value(
         &self,
         decoder: &Decoder,
-        ty: &Type<PortableForm<String>>,
+        ty: &Type<PortableForm>,
         input: &mut &[u8],
     ) -> Result<Value> {
         let discriminant = input.read_byte()?;
@@ -194,11 +194,11 @@ impl DecodeValue for TypeDefVariant<PortableForm<String>> {
     }
 }
 
-impl DecodeValue for Variant<PortableForm<String>> {
+impl DecodeValue for Variant<PortableForm> {
     fn decode_value(
         &self,
         decoder: &Decoder,
-        ty: &Type<PortableForm<String>>,
+        ty: &Type<PortableForm>,
         input: &mut &[u8],
     ) -> Result<Value> {
         let mut named = Vec::new();
@@ -226,33 +226,33 @@ impl DecodeValue for Variant<PortableForm<String>> {
     }
 }
 
-impl DecodeValue for Field<PortableForm<String>> {
+impl DecodeValue for Field<PortableForm> {
     fn decode_value(
         &self,
         decoder: &Decoder,
-        _: &Type<PortableForm<String>>,
+        _: &Type<PortableForm>,
         input: &mut &[u8],
     ) -> Result<Value> {
         decoder.decode(self, input)
     }
 }
 
-impl DecodeValue for TypeDefArray<PortableForm<String>> {
+impl DecodeValue for TypeDefArray<PortableForm> {
     fn decode_value(
         &self,
         decoder: &Decoder,
-        _: &Type<PortableForm<String>>,
+        _: &Type<PortableForm>,
         input: &mut &[u8],
     ) -> Result<Value> {
         decoder.decode_seq(self.type_param(), self.len() as usize, decoder, input)
     }
 }
 
-impl DecodeValue for TypeDefSequence<PortableForm<String>> {
+impl DecodeValue for TypeDefSequence<PortableForm> {
     fn decode_value(
         &self,
         decoder: &Decoder,
-        _: &Type<PortableForm<String>>,
+        _: &Type<PortableForm>,
         input: &mut &[u8],
     ) -> Result<Value> {
         let len = <Compact<u32>>::decode(input)?;
@@ -264,7 +264,7 @@ impl DecodeValue for TypeDefPrimitive {
     fn decode_value(
         &self,
         _: &Decoder,
-        _: &Type<PortableForm<String>>,
+        _: &Type<PortableForm>,
         input: &mut &[u8],
     ) -> Result<Value> {
         fn decode_uint<T>(input: &mut &[u8]) -> Result<Value>

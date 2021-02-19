@@ -35,12 +35,12 @@ use std::{
 };
 
 pub struct Encoder<'a> {
-    registry: &'a PortableRegistry<String>,
+    registry: &'a PortableRegistry,
     env_types: &'a EnvTypesTranscoder,
 }
 
 impl<'a> Encoder<'a> {
-    pub fn new(registry: &'a PortableRegistry<String>, env_types: &'a EnvTypesTranscoder) -> Self {
+    pub fn new(registry: &'a PortableRegistry, env_types: &'a EnvTypesTranscoder) -> Self {
         Self {
             registry,
             env_types,
@@ -118,7 +118,7 @@ pub trait EncodeValue {
     ) -> Result<()>;
 }
 
-impl EncodeValue for TypeDef<PortableForm<String>> {
+impl EncodeValue for TypeDef<PortableForm> {
     fn encode_value_to<O: Output + Debug>(
         &self,
         encoder: &Encoder,
@@ -137,7 +137,7 @@ impl EncodeValue for TypeDef<PortableForm<String>> {
     }
 }
 
-impl EncodeValue for TypeDefComposite<PortableForm<String>> {
+impl EncodeValue for TypeDefComposite<PortableForm> {
     fn encode_value_to<O: Output + Debug>(
         &self,
         encoder: &Encoder,
@@ -180,7 +180,7 @@ impl EncodeValue for TypeDefComposite<PortableForm<String>> {
     }
 }
 
-impl EncodeValue for TypeDefTuple<PortableForm<String>> {
+impl EncodeValue for TypeDefTuple<PortableForm> {
     fn encode_value_to<O: Output + Debug>(
         &self,
         encoder: &Encoder,
@@ -208,7 +208,7 @@ impl EncodeValue for TypeDefTuple<PortableForm<String>> {
     }
 }
 
-impl EncodeValue for TypeDefVariant<PortableForm<String>> {
+impl EncodeValue for TypeDefVariant<PortableForm> {
     fn encode_value_to<O: Output + Debug>(
         &self,
         encoder: &Encoder,
@@ -240,7 +240,7 @@ impl EncodeValue for TypeDefVariant<PortableForm<String>> {
     }
 }
 
-impl EncodeValue for Variant<PortableForm<String>> {
+impl EncodeValue for Variant<PortableForm> {
     fn encode_value_to<O: Output + Debug>(
         &self,
         encoder: &Encoder,
@@ -267,7 +267,7 @@ impl EncodeValue for Variant<PortableForm<String>> {
     }
 }
 
-impl EncodeValue for Field<PortableForm<String>> {
+impl EncodeValue for Field<PortableForm> {
     fn encode_value_to<O: Output + Debug>(
         &self,
         encoder: &Encoder,
@@ -278,7 +278,7 @@ impl EncodeValue for Field<PortableForm<String>> {
     }
 }
 
-impl EncodeValue for TypeDefArray<PortableForm<String>> {
+impl EncodeValue for TypeDefArray<PortableForm> {
     fn encode_value_to<O: Output + Debug>(
         &self,
         encoder: &Encoder,
@@ -289,7 +289,7 @@ impl EncodeValue for TypeDefArray<PortableForm<String>> {
     }
 }
 
-impl EncodeValue for TypeDefSequence<PortableForm<String>> {
+impl EncodeValue for TypeDefSequence<PortableForm> {
     fn encode_value_to<O: Output + Debug>(
         &self,
         encoder: &Encoder,
